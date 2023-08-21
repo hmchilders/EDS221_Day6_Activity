@@ -1,0 +1,52 @@
+---
+title: "Day 6 Activity"
+format: html
+editor: visual
+---
+
+## Data Organization in Spreadsheets
+
+1.  Use consistent codes for categorical variables.
+
+2.  Use a consistent fixed code for any missing values.
+
+3.  Use consistent variable names
+
+    1.  No spaces
+
+    2.  
+
+4.  Use consistent subject identifiers
+
+5.  Use a consistent data layout in multiple files.
+
+6.  Use consistent file names.
+
+7.  Use a consistent format for all dates
+
+    1.  It is best practice to store dates as YYYY-MM-DD
+
+8.  Use consistent phrases in your notes
+
+9.  Be careful about extra spaces within cells
+
+Mistakes I've Made:
+
+-   Putting Header info directly into the top left corner of a spreadsheet
+
+-   Calculations in the raw data file
+
+Mistakes I've Seen:
+
+-   Cell color for data management (instead add a column for trusted vs suspicious data)
+
+-   Not changing the cell type to plain text for values
+
+# 
+
+```{r}
+library(tidyverse)
+df <- tibble(x = c("a", "b"), n = c(1, 2))
+uncount(df, n)
+uncount(df, n, .id = "id")
+```

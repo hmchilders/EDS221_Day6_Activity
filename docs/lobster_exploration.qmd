@@ -1,0 +1,33 @@
+---
+title: "Lobsters"
+format: html
+editor: visual
+---
+
+# Task 2: Lobsters
+
+Attach the necessary libraries for the program
+
+```{r}
+library(tidyverse)
+library(here)
+library(janitor)
+```
+
+Read in the Lobster Data File
+
+N/A values in this dataset are stored as either "-99999" or blank cells
+
+janitor::clean_names() \<- changes all the column names to lower snake case
+
+dplyr::uncount(count) \<- duplicates rows according to the weighting variable in the column "COUNT"
+
+```{r}
+lobsters <- read_csv(here("data","Lobster_Abundance_All_Years_20210412.csv"), na = c("-99999", "")) %>%
+  clean_names() %>%
+  uncount(count)
+```
+
+```{r}
+summarize(lobsters, )
+```
