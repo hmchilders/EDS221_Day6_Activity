@@ -14,8 +14,6 @@ editor: visual
 
     1.  No spaces
 
-    2.  
-
 4.  Use consistent subject identifiers
 
 5.  Use a consistent data layout in multiple files.

@@ -29,5 +29,97 @@ lobsters <- read_csv(here("data","Lobster_Abundance_All_Years_20210412.csv"), na
 ```
 
 ```{r}
-summarize(lobsters, )
+# Create a summary table that finds the total counts (see: n()), and mean carapace lengths of lobsters observed in the dataset by site and year
+
+mean_size_by_site <- lobsters %>%
+  group_by(site) %>%
+  summarize(mean_size= mean(size_mm, na.rm = TRUE),
+            n())
+view(mean_size_by_site)
+
+
+```
+
+```{r}
+# Create a ggplot graph of the number of total lobsters observed (y-axis) by year (x-axis) in the study, grouped (either aesthetically or by faceting) by site
+
+lobsters_obs <- lobsters %>% 
+  group_by(year) %>% 
+  mutate(observed_lobsters = n())
+
+ggplot(data = lobsters_obs, aes(x=year, y = observed_lobsters))+
+  geom_point()+
+  facet_wrap("site")
+```
+
+Proportion of legal lobster
+
+```{r}
+legal_lobster <- lobsters %>% 
+  filter(year == "2020") %>% 
+  mutate(legal_limit = case_when (
+    size_mm >= 79.76 ~ "legal",
+    size_mm < 79.76 ~ "illegal"
+  ))
+
+legal_sum <- legal_lobster %>% 
+  group_by(site,legal_limit) %>% 
+  summarize(count = n())
+```
+
+```{r}
+ggplot(legal_sum, aes(x = site, y = count))+
+  geom_col(aes(color = legal_limit),
+           position = "fill")
+
+```
+
+## TASK 3
+
+```{r}
+# Create and store a subset that only contains lobsters from sites “IVEE”, “CARP” and “NAPL”. Check your output data frame to ensure that only those three sites exist.
+ex_a <- lobsters %>% 
+  filter(site %in% c("IVEE", "CARP","NAPL"))
+# Create a subset that only contains lobsters observed in August.
+ex_b <- lobsters %>% 
+  filter(month == "8")
+
+# 
+ex_c <- lobsters %>% 
+  filter(site == "AQUE" | size_mm > 70)
+
+ex_d <- lobsters %>% 
+  filter(!site %in% "NAPL")
+
+ex_e <- lobsters %>%
+  group_by(site) %>%
+  summarize(mean_size= mean(size_mm, na.rm = TRUE),
+            sd_size = sd(size_mm, na.rm = TRUE))
+# view(ex_e)
+
+ex_f <- lobsters %>%
+  group_by(site,month) %>%
+  summarize(max_size= max(size_mm, na.rm = TRUE))
+
+ex_g <- lobsters %>%
+  mutate(size_cm = size_mm/10)
+
+ex_h <- lobsters %>% 
+  mutate(site = str_to_lower(site))
+
+ex_i <- lobsters %>% 
+  mutate(area = is.character(area))
+
+ex_j <- lobsters %>% 
+  mutate(size_bin = case_when(
+    size_mm > 70 ~ "large",
+    size_mm <= 70 ~ "small"
+  ))
+
+ex_k <- lobsters %>% 
+  mutate(designation = case_when(
+    site == "IVEE" ~ "MPA",
+    site != "IVEE" ~ "not MPA"
+  ))
+
 ```
